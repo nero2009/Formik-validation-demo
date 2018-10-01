@@ -1,6 +1,23 @@
 import React, { Component } from "react";
 import { Formik } from "formik";
+import withStyles from "@material-ui/core/styles/withStyles";
 import * as Yup from "yup";
+import { Form } from "./form";
+import Paper from "@material-ui/core/Paper";
+
+const styles = theme => ({
+  paper: {
+    marginTop: theme.spacing.unit * 8,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: `${theme.spacing.unit * 5}px ${theme.spacing.unit * 5}px ${theme
+      .spacing.unit * 5}px`
+  },
+  container: {
+    maxWidth: "200px"
+  }
+});
 
 const validationSchema = Yup.object().shape({
   name: Yup.string("Enter a name")
@@ -24,12 +41,23 @@ class InputForm extends Component {
   }
 
   render() {
+    const classes = this.props;
+    const values = { name: "", email: "", confirmPassword: "", password: "" };
     return (
       <React.Fragment>
-        <h2>Nero</h2>
+        <div className={classes.container}>
+          <Paper elevation={1} className={classes.paper}>
+            <h1>Form</h1>
+            <Formik
+              render={props => <Form {...props} />}
+              initialValues={values}
+              validationSchema={validationSchema}
+            />
+          </Paper>
+        </div>
       </React.Fragment>
     );
   }
 }
 
-export default InputForm;
+export default withStyles(styles)(InputForm);
